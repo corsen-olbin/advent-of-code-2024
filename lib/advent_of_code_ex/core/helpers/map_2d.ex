@@ -52,4 +52,24 @@ defmodule AdventOfCodeEx.Core.Helpers.Map2D do
       Enum.reduce(v, acc, fn {y, v2}, acc2 -> if func?.(v2), do: [{x ,y} | acc2], else: acc2 end)
     end)
   end
+
+  def read_input_as_map_2d(input) do
+    input
+    |> String.split
+    |> add_lines_to_map
+  end
+
+  def add_lines_to_map(lines) do
+    add_to_map_rec(%{}, lines, 0)
+  end
+
+  defp add_to_map_rec(acc, [], _x), do: acc
+
+  defp add_to_map_rec(acc, [line | lines], x) do
+    line
+    |> String.graphemes()
+    |> Enum.with_index()
+    |> Enum.reduce(acc, fn {v, i}, a -> put(a, x, i, v) end)
+    |> add_to_map_rec(lines, x + 1)
+  end
 end
