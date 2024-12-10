@@ -13,6 +13,8 @@ defmodule AdventOfCodeEx.Core.Days.Day6 do
     |> Map2D.read_input_as_map_2d
     #|> move_guard_part_2(:map)
     |> move_guard_part_2(:blocks)
+    |> IO.inspect
+    |> Enum.uniq
     |> Enum.count
   end
 
@@ -91,7 +93,7 @@ defmodule AdventOfCodeEx.Core.Days.Day6 do
     stuck_in_loop_rec(map, init_pos, direc)
   end
 
-  def stuck_in_loop_rec(map, pos, direc) do
+  def stuck_in_loop_rec(map, {x, y} = pos, direc) do
     # #IO.write(direc)
     # #IO.inspect(pos)
     # {for_x, for_y} = calc_new_position(direc, pos)
@@ -111,8 +113,9 @@ defmodule AdventOfCodeEx.Core.Days.Day6 do
     {next_x, next_y} = calc_new_position(direc, pos)
     symbol = Map2D.get(map, next_x, next_y)
     cond do
-      is_nil(symbol) or symbol == "#" -> false
-      symbol == "+" -> true
+      is_nil(symbol) -> false
+      symbol == "#" -> Map2D.get(map, x, y) == "+"
+      # symbol == "+" -> true
         # {nnx, nny} = calc_new_position(direc, {next_x, next_y})
         # Map2D.get(map, nnx, nny) == "#"
       # symbol == "-" and (direc == :right or direc == :left) -> stuck_in_loop_rec(map, {next_x, next_y}, direc)
