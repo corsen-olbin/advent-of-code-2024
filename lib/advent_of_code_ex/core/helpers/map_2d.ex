@@ -72,4 +72,12 @@ defmodule AdventOfCodeEx.Core.Helpers.Map2D do
     |> Enum.reduce(acc, fn {v, i}, a -> put(a, x, i, v) end)
     |> add_to_map_rec(lines, x + 1)
   end
+
+  def inspect(map) do
+    Enum.each(map, fn {_, x} ->
+      Enum.each(x, fn {_, y} -> IO.write(y) end)
+      IO.puts("")
+    end)
+    IO.puts("")
+  end
 end
